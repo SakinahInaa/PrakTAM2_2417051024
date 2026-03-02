@@ -3,46 +3,71 @@ package com.example.praktam2_2417051024
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.praktam2_2417051024.ui.theme.PrakTAM2_2417051024Theme
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.praktam2_2417051024.model.HabitSource
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            PrakTAM2_2417051024Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Sakinah",
-                        npm = "2417051024",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            DailyCheckApp()
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DailyCheckApp() {
+    val habits = HabitSource.dummyHabit
+
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("DailyCheck Habit Tracker") })
+        }
+    ) { paddingValues ->
+
+        LazyColumn(
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(16.dp)
+        ) {
+            items(habits) { habit ->
+                HabitItem(habit)
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, npm: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello nama saya $name dengan npm $npm, saya siap belajar compose!",
-        modifier = modifier
-    )
-}
+fun HabitItem(habit: com.example.praktam2_2417051024.model.Habit) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Image(
+                painter = painterResource(id = habit.imageRes),
+                contentDescription = habit.nama,
+                modifier = Modifier.size(64.dp)
+            )
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PrakTAM2_2417051024Theme {
-        Greeting(name = "Sakinah", npm = "2417051024")
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Column {
+                Text(text = habit.nama, style = MaterialTheme.typography.titleMedium)
+                Text(text = habit.deskripsi)
+            }
+        }
     }
 }
