@@ -5,12 +5,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,7 +54,6 @@ fun DaftarHabitScreen() {
             .padding(16.dp)
     ) {
 
-        // HEADER
         Text(
             text = "DailyCheck 🌿",
             style = MaterialTheme.typography.headlineLarge,
@@ -71,28 +80,49 @@ fun DaftarHabitScreen() {
 @Composable
 fun DetailScreen(habit: Habit) {
 
+    var isDone by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
+    var count by remember { mutableStateOf(0) }
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
 
-        Row(
-            modifier = Modifier
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Column {
 
-            Image(
-                painter = painterResource(id = habit.imageRes),
-                contentDescription = habit.nama,
-                modifier = Modifier.size(70.dp)
-            )
+            Box {
 
-            Spacer(modifier = Modifier.width(16.dp))
+                Image(
+                    painter = painterResource(id = habit.imageRes),
+                    contentDescription = habit.nama,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                )
+
+                IconButton(
+                    onClick = { isDone = !isDone },
+                    modifier = Modifier.align(Alignment.TopEnd)
+                ) {
+
+                    Icon(
+                        imageVector =
+                            if (isDone) Icons.Filled.CheckCircle
+                            else Icons.Outlined.CheckCircle,
+
+                        contentDescription = "Done",
+
+                        tint =
+                            if (isDone) Color(0xFF2E7D32)
+                            else Color.White
+                    )
+                }
+            }
 
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.padding(16.dp)
             ) {
 
                 Text(
@@ -101,29 +131,59 @@ fun DetailScreen(habit: Habit) {
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text = habit.deskripsi,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
-                )
+                Row(
+                    modifier = Modifier
+                        .clickable { expanded = !expanded },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Text(
+                        text = "Deskripsi",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
+                    Text(
+                        text = if (expanded) "▲" else "▼"
+                    )
+                }
+
+                if (expanded) {
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    Text(
+                        text = habit.deskripsi,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Button(
-                    onClick = { },
-                    shape = RoundedCornerShape(12.dp)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Mark Done ✔")
+
+                    Button(
+                        onClick = { count++ },
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("+1 Progress")
+                    }
+
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    Text(
+                        text = "Count: $count",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 }
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DaftarHabitPreview() {
-    DaftarHabitScreen()
 }
