@@ -14,25 +14,25 @@ object HabitSource {
 
         Habit(
             "Baca Buku",
-            "Luangkan waktu 10–15 menit membaca untuk menambah wawasan setiap hari.",
+            "Luangkan waktu 10–15 menit membaca untuk menambah wawasan dan melatih fokus.",
             R.drawable.buku
         ),
 
         Habit(
             "Olahraga",
-            "Lakukan aktivitas fisik ringan seperti stretching atau jalan kaki selama 15 menit.",
+            "Lakukan aktivitas fisik ringan seperti stretching, jogging, atau workout singkat.",
             R.drawable.olahraga
         ),
 
         Habit(
             "Belajar",
-            "Gunakan waktu minimal 1 jam untuk belajar atau mengulang materi.",
+            "Gunakan waktu minimal 1 jam untuk belajar atau mengulang materi agar konsisten berkembang.",
             R.drawable.belajar
         ),
 
         Habit(
             "Tidur Cepat",
-            "Tidur sebelum pukul 23.00 agar tubuh mendapat istirahat yang cukup.",
+            "Tidur sebelum pukul 23.00 agar tubuh mendapat istirahat yang cukup dan bangun lebih segar.",
             R.drawable.tidur
         )
     )
