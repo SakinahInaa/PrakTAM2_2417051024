@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -22,19 +21,21 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.praktam2_2417051024.model.Habit
 import com.example.praktam2_2417051024.model.HabitSource
+import com.example.praktam2_2417051024.ui.theme.DailyCheckTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            DailyCheckApp()
+            DailyCheckTheme {
+                DailyCheckApp()
+            }
         }
     }
 }
@@ -48,8 +49,8 @@ fun DailyCheckApp() {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /* TODO: CRUD create */ },
-                containerColor = Color(0xFF2E7D32)
+                onClick = { },
+                containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(Icons.Filled.Add, contentDescription = "Tambah Habit")
             }
@@ -93,7 +94,7 @@ fun HeaderSection() {
         Text(
             text = "Bangun kebiasaan baik setiap hari",
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }
@@ -103,7 +104,6 @@ fun CategoryRow(
     selected: String,
     onSelected: (String) -> Unit
 ) {
-
     val categories = listOf("Semua", "Pagi", "Siang", "Malam")
 
     LazyRow(
@@ -117,11 +117,11 @@ fun CategoryRow(
                 onClick = { onSelected(category) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor =
-                        if (isSelected) Color(0xFF2E7D32)
-                        else Color.LightGray,
-                    contentColor =
-                        if (isSelected) Color.White
-                        else Color.Black
+                        if (isSelected)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
                 Text(category)
@@ -140,7 +140,10 @@ fun HabitCard(habit: Habit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ) {
 
         Box {
@@ -188,7 +191,7 @@ fun HabitCard(habit: Habit) {
                         Text(
                             text = habit.deskripsi,
                             style = MaterialTheme.typography.bodySmall,
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
 
@@ -222,8 +225,10 @@ fun HabitCard(habit: Habit) {
                         else Icons.Outlined.CheckCircle,
                     contentDescription = "Done",
                     tint =
-                        if (isDone) Color(0xFF2E7D32)
-                        else Color.Gray
+                        if (isDone)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
