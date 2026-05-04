@@ -1,11 +1,21 @@
 package com.example.praktam2_2417051024.model
 
-import androidx.annotation.DrawableRes
+import com.google.gson.annotations.SerializedName
 
 data class Habit(
+
+    @SerializedName("nama")
     val nama: String,
+
+    @SerializedName("deskripsi")
     val deskripsi: String,
+
+    @SerializedName("deskripsi_panjang")
     val deskripsiPanjang: String,
+
+    @SerializedName("kategori")
     val kategori: String,
-    @DrawableRes val imageRes: Int
+
+    @SerializedName("image_url")
+    val imageUrl: String
 )
