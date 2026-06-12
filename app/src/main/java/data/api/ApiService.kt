@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface ApiService {
 
     @GET("habit.json")
-    suspend fun getHabits(): List<Habit>
+    suspend funetHabits(): List<Habit>
 }
